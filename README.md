@@ -36,7 +36,7 @@ The following format is like a real world example. Logstash can listen any port 
     }
 
 
-## Using 3 Different Docker Custom Images
+## Using 3 Different Docker Custom Images (Using 3 Different Dockerfiles)
 
 ### Logstash Dockerfile
 
