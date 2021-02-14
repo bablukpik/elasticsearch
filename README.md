@@ -1,3 +1,5 @@
+# Elasticsearch with Logstash, Kibana (ELK Stack)
+
 ## Using 3 Different Docker Images (Official Elastic Docker Images)
 
 - Step 1: Setup Elasticsearch container and verify elastic its working
@@ -12,7 +14,7 @@ http://localhost:5601​
 `docker run --name logstash --net elasticsearch -it --rm -v $(pwd):/config-dir docker.elastic.co/logstash/logstash:7.11.0 -f /config-dir/logstash.conf`
 
 ### logstash.conf
-Standard user input from keyboard
+Standard user input from terminal. Try writing something from your keyboard in the terminal once writing hit enter when the logstash container is ready and then discover it in the Kibana by creating an index like this `logstash-*`.
  
     input { stdin { } }
     
@@ -21,7 +23,7 @@ Standard user input from keyboard
     }
 
 ### logstash2.conf 
-The following format is like a real world example. Logstash can listen any port and can grab data out of it and then parse/filter it and finally send it to elasticsearch.
+The following format is like a real world example. This might look like in your case. Logstash can listen any port and can grab data out of it and then parse/filter it and finally send it to elasticsearch.
 
     input { 
       tcp { 
