@@ -14,6 +14,8 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+    networks:
+      - elastic
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.11.0
@@ -22,6 +24,8 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+    networks:
+      - elastic
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:7.11.0
@@ -32,6 +36,10 @@ services:
       - 9600:9600
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    networks:
+      - elastic
 volumes:
   elasticsearch-data:
     driver: local
+networks:
+  elastic:
