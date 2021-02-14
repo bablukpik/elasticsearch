@@ -16,6 +16,8 @@
 
 - Step 3: Create logstash config file and use it to setup Logstash container
 
+Let's change the directory first to logstash by using `cd logstash`
+
 `docker run --name logstash --net elasticsearch -it --rm -v $(pwd):/config-dir docker.elastic.co/logstash/logstash:7.11.0 -f /config-dir/logstash.conf`
 
 ### logstash.conf
@@ -47,7 +49,7 @@ The following format is like a real world example. This might look like in your 
 
 ### Logstash Dockerfile
 
-First of all create an image using this command: `docker build -t "logstash:Dockerfile" .`
+Let's change the directory first to logstash by using `cd logstash` and then create an image using this command: `docker build -t "logstash:Dockerfile" .`
 
 And then run a container from that image like this: `docker run --rm -it --name logstash --net elasticsearch logstash:Dockerfile`
 
