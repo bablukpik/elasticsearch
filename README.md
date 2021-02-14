@@ -3,14 +3,19 @@
 ## Using 3 Different Docker Images (Official Elastic Docker Images)
 
 - Step 1: Setup Elasticsearch container and verify elastic its working
+  
 `docker run --rm -it -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --net elasticsearch --name elasticsearch elasticsearch:7.10.1`
-curl http://localhost:9200/​
+
+    curl http://localhost:9200/​
 
 - Step 2: Setup Kibana container and verify
+
 `docker run --rm -d --name kibana --net elasticsearch -p 5601:5601 kibana:7.10.1`
-http://localhost:5601​
+  
+    http://localhost:5601​
 
 - Step 3: Create logstash config file and use it to setup Logstash container
+
 `docker run --name logstash --net elasticsearch -it --rm -v $(pwd):/config-dir docker.elastic.co/logstash/logstash:7.11.0 -f /config-dir/logstash.conf`
 
 ### logstash.conf
