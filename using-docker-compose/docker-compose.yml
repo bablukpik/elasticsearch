@@ -1,0 +1,87 @@
+version: "3.3"
+
+services:
+  mysql_db:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: test-db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: admin
+    volumes:
+    - "mysql_db:/var/lib/mysql"
+    - "./statement/my_query.sql:/docker-entrypoint-initdb.d/my_query.sql"
+    ports:
+    - 3306:3306
+    networks:
+    - elastic
+
+  elasticsearch1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    container_name: elasticsearch1
+    restart: always
+    environment:
+      - transport.host=127.0.0.1
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elastic
+
+  kibana1:
+    container_name: kibana1
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    restart: always
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch1:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch1:9200"]'
+    ports:
+     - 5601:5601
+    depends_on:
+     - elasticsearch1
+    networks:
+     - elastic
+
+  logstash1:
+    build: .
+    container_name: logstash1
+    restart: unless-stopped
+    environment:
+      ES_HOST: elasticsearch1
+      ES_PORT: 9200
+      ES_USER: elastic
+      ES_PASS: changeme
+      DB_CONNECTION: mysql
+      DB_HOST: mysql_db
+      DB_PORT: 3306
+      DB_NAME: test-db
+      DB_USERNAME: root
+      DB_PASSWORD: admin
+    ports:
+      - 9600:9600
+      - 5044:5044
+    depends_on:
+#      - elasticsearch1
+      - mysql_db
+    networks:
+      - elastic
+    volumes:
+      - ./config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./pipelines:/app/pipelines
+      - ./statement:/app/statement
+  #  working_dir: /app
+
+volumes:
+  elasticsearch-data:
+    driver: local
+  mysql_db:
+    driver: local
+
+networks:
+  elastic:

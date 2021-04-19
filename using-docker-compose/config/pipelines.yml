@@ -1,0 +1,2 @@
+- pipeline.id: your-query-specific-name-here
+  path.config: "/app/pipelines/select.conf"
