@@ -1,4 +1,4 @@
-# Elasticsearch with Logstash, Kibana (ELK Stack)
+# Using Dockerfile Only
 
 ## Using 3 Different Docker Images (Official Elastic Docker Images)
 
