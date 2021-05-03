@@ -1,5 +1,3 @@
-# Using Dockerfile Only
-
 ## Using 3 Different Docker Images (Official Elastic Docker Images)
 
 - Step 1: Setup Elasticsearch container and verify elastic its working
