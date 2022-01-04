@@ -4,4 +4,4 @@ name VARCHAR(30) NOT NULL
 );
 
 INSERT INTO person (name)
-VALUES ('Bablu'), ('Julius'), ('Rahim');
+VALUES ('Bablu'), ('Julius'), ('Mobarok'), ('O Max'), ('Richard');
